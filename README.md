@@ -63,7 +63,26 @@ Review the `tests/` directory for unit tests. Follow the project instructions to
 - Practice infrastructure as code
 - Understand modular and scalable distributed processing
 
-## Academic Project
+## Future Enhancements
 
-Developed as part of the M.E. Software Systems program.
+- Add a real-time dashboard for monitoring job status and processing metrics.
+- Implement retry mechanisms and dead-letter queues for failed jobs.
+- Add authentication and role-based access control.
+- Improve logging, monitoring, and error handling using AWS CloudWatch.
+- Automate deployment using AWS SAM and CI/CD workflows.
+
+## Learning Outcomes
+
+- Understanding serverless cloud architecture using AWS.
+- Implementing asynchronous processing with Amazon SQS and AWS Lambda.
+- Managing application data using Amazon S3 and Amazon DynamoDB.
+- Exploring infrastructure as code and cloud deployment practices.
+- Designing modular, scalable, and maintainable cloud applications.
+
+## Author
+
+Developed as an academic project for the M.E. Software Systems program.
+
+**GitHub Repository:** [CloudScale](https://github.com/ahamedali-analytics/CloudScale)
+
 
