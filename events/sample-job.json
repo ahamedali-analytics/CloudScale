@@ -1,0 +1,8 @@
+{
+  "records": [
+    {"department": "Sales", "amount": 120, "region": "North"},
+    {"department": "IT", "amount": 250, "region": "West"},
+    {"department": null, "amount": 180, "region": "North"},
+    {"department": "Sales", "amount": null, "region": ""}
+  ]
+}

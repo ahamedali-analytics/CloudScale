@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.aws-sam/
+samconfig.toml
+.env
+.env.*
+.aws/
+credentials
+config
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

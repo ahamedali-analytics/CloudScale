@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudScale | Workload Console</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="eyebrow">SERVERLESS DATA PLATFORM</div>
+      <h1>CloudScale</h1>
+      <p>Submit data-processing workloads and track them from queue to completion.</p>
+    </header>
+    <section class="panel">
+      <h2>Connect to your API</h2>
+      <label for="apiUrl">API base URL (the deployed ApiUrl output)</label>
+      <input id="apiUrl" type="url" placeholder="https://abc123.execute-api.region.amazonaws.com/Prod">
+      <p class="hint">The URL is kept only in this page's current session.</p>
+    </section>
+    <section class="panel">
+      <h2>Submit a workload</h2>
+      <label for="records">JSON array of records</label>
+      <textarea id="records" rows="9">[
+  {"department": "Sales", "amount": 120},
+  {"department": "IT", "amount": 250},
+  {"department": null, "amount": 180}
+]</textarea>
+      <button id="submitBtn">Submit job</button>
+      <p id="submitMessage" class="message" role="status"></p>
+    </section>
+    <section class="panel">
+      <h2>Check workload</h2>
+      <label for="jobId">Job ID</label>
+      <div class="inline">
+        <input id="jobId" type="text" placeholder="Paste a job ID">
+        <button id="checkBtn" class="secondary">Check status</button>
+      </div>
+      <div id="jobStatus" class="status" aria-live="polite">No job selected.</div>
+      <pre id="result" hidden></pre>
+    </section>
+    <footer>CloudScale · AWS Lambda · API Gateway · SQS · DynamoDB · S3</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
