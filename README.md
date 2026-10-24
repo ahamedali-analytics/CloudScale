@@ -4,4 +4,4 @@ A serverless cloud-based distributed data processing and workload management sys
 
 ## System Architecture
 
-![CloudScale System Architecture](image.png)
+![CloudScale System Architecture](architecture.png)
