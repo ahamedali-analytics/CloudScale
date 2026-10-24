@@ -1,140 +1,55 @@
 # CloudScale
-## A Serverless Cloud-Based Distributed Data Processing and Workload Management System Using AWS
+### A Serverless Cloud-Based Distributed Data Processing and Workload Management System Using AWS
 
-CloudScale is an educational M.E.-level project demonstrating asynchronous job submission, queue-based workload distribution, serverless processing, status tracking, and result storage. It does not use AI or machine learning.
+CloudScale is an advanced M.E. Software Systems project that demonstrates how to submit, queue, process, and monitor data-processing jobs using AWS serverless services.
 
-### AWS services
-- Amazon API Gateway: REST endpoints
-- AWS Lambda: job submission, worker, and status retrieval
-- Amazon SQS: asynchronous job queue and dead-letter queue
-- Amazon DynamoDB: job metadata and status
-- Amazon S3: input and output JSON
-- Amazon CloudWatch: logs and operational troubleshooting
-- AWS SAM / CloudFormation: infrastructure as code
+## Key Features
+- Asynchronous job submission and processing
+- Distributed workload management using a message queue
+- Real-time job status tracking
+- Input and output storage using Amazon S3
+- Job metadata management using Amazon DynamoDB
+- Error handling and dead-letter queue support
+- Automated deployment using AWS SAM
 
-### Architecture
-```text
-Client / Dashboard
-       |
-       v
-API Gateway ---> Submit Lambda ---> S3 (input JSON)
-                       |              |
-                       v              v
-                  DynamoDB         SQS Queue
-                                      |
-                                      v
-                                 Worker Lambda
-                                  /          \
-                                 v            v
-                         DynamoDB status   S3 result JSON
+## AWS Services
+- **Amazon API Gateway** — Exposes REST API endpoints
+- **AWS Lambda** — Executes job submission, processing, and status retrieval
+- **Amazon SQS** — Manages asynchronous job queues
+- **Amazon DynamoDB** — Stores job metadata and status
+- **Amazon S3** — Stores input and output data
+- **Amazon CloudWatch** — Supports logging and troubleshooting
+- **AWS SAM** — Defines and deploys cloud resources
 
-API Gateway ---> Get Job Lambda ---> DynamoDB + S3 result
-```
+## Architecture
+1. A user submits a processing job through the API.
+2. API Gateway routes the request to a Lambda function.
+3. The job is added to an SQS queue.
+4. A worker processes the job asynchronously.
+5. Job status and results are stored in DynamoDB and S3.
+6. The user retrieves job status and results through the API.
 
-### Features
-1. Submit JSON records through `POST /jobs`.
-2. Persist the input and create a `QUEUED` job.
-3. Process jobs asynchronously from SQS with Lambda.
-4. Track `QUEUED`, `PROCESSING`, `COMPLETED`, and `FAILED` states.
-5. Calculate record counts, missing values, and numeric min/max/mean summaries.
-6. Retrieve job status and results through `GET /jobs/{jobId}`.
-7. Includes a simple browser dashboard and unit tests.
+## Project Structure
+- `backend/` — API and worker functions
+- `events/` — Sample event payloads
+- `frontend/` — User interface
+- `tests/` — Unit tests
+- `template.yaml` — AWS SAM infrastructure definition
 
-### Repository layout
-```text
-CloudScale/
-├── backend/
-│   ├── submit_job/app.py
-│   ├── worker/app.py
-│   ├── get_job/app.py
-│   └── requirements.txt
-├── frontend/
-│   ├── index.html
-│   ├── styles.css
-│   └── app.js
-├── events/sample-job.json
-├── tests/test_processor.py
-├── template.yaml
-├── samconfig.toml.example
-├── .gitignore
-└── LICENSE
-```
+## Getting Started
+1. Install Python and the AWS SAM CLI.
+2. Configure AWS credentials in your development environment.
+3. Review `template.yaml` and `samconfig.toml.example`.
+4. Follow the deployment and testing instructions in the project files.
 
-### Requirements
-- AWS account and AWS CLI credentials
-- Python 3.12
-- AWS SAM CLI
-- Git
+## Project Goals
+- Demonstrate serverless application design
+- Explore asynchronous processing and workload management
+- Practice cloud infrastructure as code
+- Build a scalable foundation for distributed data-processing workloads
 
-### Deploy
-Run these commands from the project root:
-```bash
-sam validate --lint
-sam build
-sam deploy --guided
-```
-Suggested stack name: `cloudscale-dev`. Allow SAM to create IAM roles when prompted. Choose your preferred AWS region and save the deployment configuration.
+## Technologies
+Python · AWS Lambda · Amazon API Gateway · Amazon SQS · Amazon DynamoDB · Amazon S3 · AWS SAM
 
-Copy the `ApiUrl` output after deployment. Open `frontend/index.html` in a browser and paste the base URL. The dashboard is not hosted by the template; you can optionally host it with S3 and CloudFront.
-
-### API examples
-
-Submit:
-```http
-POST /jobs
-Content-Type: application/json
-```
-```json
-{
-  "records": [
-    {"department": "Sales", "amount": 120},
-    {"department": "IT", "amount": 250},
-    {"department": null, "amount": 180}
-  ]
-}
-```
-
-Example response (`202 Accepted`):
-```json
-{
-  "jobId": "generated-job-id",
-  "status": "QUEUED",
-  "message": "Job accepted for asynchronous processing."
-}
-```
-
-Check status:
-```http
-GET /jobs/{jobId}
-```
-
-### Run tests locally
-```bash
-python -m unittest discover -s tests -v
-```
-The processor logic is separated from AWS calls, so the unit tests do not require AWS credentials.
-
-### Security and cost notes
-This is a learning scaffold, not a production-ready service. AWS resources may incur charges. Set a budget alert, use a test account, and delete the stack when finished. Empty the S3 bucket before deleting the stack if it contains objects. Before production, add authentication (for example, Cognito), restrict CORS to your frontend origin, set request limits, add idempotency handling, configure alarms and DLQ monitoring, and review IAM permissions.
-
-### GitHub upload
-1. Create a GitHub repository named `CloudScale`.
-2. Extract this ZIP and open a terminal in the extracted folder.
-3. Run:
-```bash
-git init
-git add .
-git commit -m "Initial CloudScale serverless project"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/CloudScale.git
-git push -u origin main
-```
-Replace `YOUR-USERNAME` with your GitHub username.
-
-### Resume description
-**CloudScale — Serverless Distributed Data Processing and Workload Management System**
-- Designed an asynchronous serverless workflow using AWS Lambda, API Gateway, SQS, DynamoDB, and S3.
-- Implemented job submission, queue-based worker execution, status tracking, and result retrieval through REST APIs.
-- Added unit tests and infrastructure-as-code deployment using AWS SAM.
-
-Only claim cloud deployment or performance results after you have actually deployed and tested the system.
+## Academic Project
+Developed as part of the M.E. Software Systems program.
