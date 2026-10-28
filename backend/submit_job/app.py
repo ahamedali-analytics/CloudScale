@@ -28,14 +28,18 @@ def response(status_code, body):
 
 def lambda_handler(event, context):
     try:
-        body = json.loads(event.get("body") or "{}")
-        records = body.get("records")
-        if not isinstance(records, list) or not records:
-            return response(400, {"error": "'records' must be a non-empty JSON array."})
-        if len(records) > MAX_RECORDS:
-            return response(413, {"error": f"Maximum records per job is {MAX_RECORDS}."})
-        if not all(isinstance(row, dict) for row in records):
-            return response(400, {"error": "Every record must be a JSON object."})
+       body = json.loads(event.get("body") or "{}")
+
+if not isinstance(body, dict):
+    return response(400, {"error": "Request body must be a JSON object."})
+
+records = body.get("records")
+if not isinstance(records, list) or not records:
+    return response(400, {"error": "'records' must be a non-empty JSON array."})
+if len(records) > MAX_RECORDS:
+    return response(413, {"error": f"Maximum records per job is {MAX_RECORDS}."})
+if not all(isinstance(row, dict) for row in records):
+     return response(400, {"error": "Every record must be a JSON object."})
 
         job_id = str(uuid.uuid4())
         now = datetime.now(timezone.utc).isoformat()
