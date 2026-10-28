@@ -29,8 +29,6 @@ def response(status_code, body):
 def lambda_handler(event, context):
     try:
         body = json.loads(event.get("body") or "{}")
-        if not isinstance(body, dict):
-                return response(400, {"error": "Request body must be a JSON object."})
         records = body.get("records")
         if not isinstance(records, list) or not records:
             return response(400, {"error": "'records' must be a non-empty JSON array."})

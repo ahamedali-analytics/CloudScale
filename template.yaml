@@ -3,6 +3,11 @@ Transform: AWS::Serverless-2016-10-31
 Description: CloudScale serverless distributed data processing and workload management system
 
 Globals:
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'"
   Function:
     Runtime: python3.12
     Timeout: 30
@@ -51,10 +56,10 @@ Resources:
   JobQueue:
     Type: AWS::SQS::Queue
     Properties:
-      VisibilityTimeout: 180
+      VisibilityTimeout: 720
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt JobDeadLetterQueue.Arn
-        maxReceiveCount: 3
+        maxReceiveCount: 5
 
   SubmitJobFunction:
     Type: AWS::Serverless::Function
