@@ -50,13 +50,23 @@ def lambda_handler(event, context):
                 job_id, "COMPLETED", resultKey=result_key,
                 resultSummary={"recordCount": result["recordCount"], "fieldCount": result["fieldCount"]},
             )
+       
         except Exception as exc:
             print("Job processing failed", {"messageId": message_id, "error": str(exc)})
             try:
                 parsed = json.loads(record.get("body", "{}"))
-                if parsed.get("jobId"):
-                    update_job(parsed["jobId"], "FAILED", errorMessage="Processing failed; inspect worker logs.")
+                job_id = parsed.get("jobId")
+                receive_count = int(
+                    (record.get("attributes") or {}).get(
+                        "ApproximateReceiveCount", "1"
+                    )
+                )
+                if job_id and receive_count >= 5:
+                    update_job(
+                        job_id,
+                        "FAILED",
+                        errorMessage="Processing failed after repeated attempts; inspect worker logs.",
+                    )
             except Exception as update_exc:
                 print("Unable to update failed job", str(update_exc))
             failures.append({"itemIdentifier": message_id})
-    return {"batchItemFailures": failures}
