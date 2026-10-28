@@ -3,6 +3,11 @@ Transform: AWS::Serverless-2016-10-31
 Description: CloudScale serverless distributed data processing and workload management system
 
 Globals:
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'"
   Function:
     Runtime: python3.12
     Timeout: 30
