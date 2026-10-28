@@ -56,10 +56,10 @@ Resources:
   JobQueue:
     Type: AWS::SQS::Queue
     Properties:
-      VisibilityTimeout: 180
+      VisibilityTimeout: 720
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt JobDeadLetterQueue.Arn
-        maxReceiveCount: 3
+        maxReceiveCount: 5
 
   SubmitJobFunction:
     Type: AWS::Serverless::Function
